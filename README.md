@@ -44,5 +44,3 @@ flowchart TD
 - Use Cloudflare Tunnel for services that need remote HTTPS access without router port forwarding. Verify sign-in and synchronization from supported clients.
 - Track Compose files, environment variable templates, and runbooks in Git. Keep credentials, application data, and backups outside the repository.
 - Document how to verify and roll back updates. Automated off-device backups and a full rebuild test are planned for later.
-
-This repository is in the planning stage. Follow the rollout in [GitHub Issues](https://github.com/devferncosta/homelab/issues).
