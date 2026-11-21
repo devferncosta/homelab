@@ -1,0 +1,9 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Local secrets, application data, and backup files
+secrets/
+data/
+backups/
