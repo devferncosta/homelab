@@ -25,7 +25,7 @@ To run the Cloudflare connector with Compose, set `OPENGYM_TUNNEL_CONFIG` and `O
 
 1. Sign in at the HTTPS address and select **Settings → Account → Pair the mobile app**. Confirm with a passkey or with your password while password sign-in is enabled.
 2. In the native app, select **Connect to my server** and enter the HTTPS address and the one-time pairing code. With Wi-Fi off and cellular data on, log a sample workout and confirm it appears in the browser. This tests access and sync from outside the home network. [Upstream mobile guide](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/MOBILE.md#connecting-the-app-to-your-own-server)
-3. After a Windows reboot, sign in so Docker Desktop can start. The API, web container, and tunnel connector each have an `always` restart policy. Check them with `docker compose --profile tunnel ps` and confirm the HTTPS site responds again.
+3. After a Windows reboot, sign in so Docker Desktop can start. The API, web container, tunnel connector, and optional MCP service each have an `always` restart policy. Check them with `docker compose ps` and confirm the HTTPS site responds again.
 
 ## Connect the AI Coach to a ChatGPT plan
 
@@ -39,4 +39,6 @@ Eligible usage counts against the connected ChatGPT plan. The authorization bind
 
 ## Use openGym from ChatGPT
 
-openGym's optional MCP container exposes `/mcp` and supports signing in with openGym through OAuth. Each authorization grants the connected assistant access to one profile. This requires a ChatGPT plan that can add a custom MCP server. Routine changes and workout logging also require MCP write support in ChatGPT. [openGym OAuth connector](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/MCP_REMOTE.md) · [ChatGPT custom MCP availability](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)
+Set `MCP=on` and `COMPOSE_PROFILES=tunnel,mcp` in the live `.env`, then run `docker compose up -d --wait`. The existing HTTPS hostname serves the connector at `/mcp`. Check `/mcp/health` and open **Settings → Use your subscription** in openGym.
+
+In ChatGPT, open **Plugins → Add custom MCP server**, enter the full HTTPS `/mcp` address, and choose **OAuth**. Sign in to openGym and authorize the requested access. Each authorization grants access to one profile. Routine changes and workout logging require MCP write support in ChatGPT. [openGym OAuth connector](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/MCP_REMOTE.md#claude-chatgpt-and-gemini-sign-in-with-opengym-oauth) · [ChatGPT custom MCP availability](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)

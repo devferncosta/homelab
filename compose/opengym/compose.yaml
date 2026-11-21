@@ -14,6 +14,7 @@ services:
       INVITE_ONLY: "${OPENGYM_INVITE_ONLY:-0}"
       PASSWORD_LOGIN: "${OPENGYM_PASSWORD_LOGIN:-0}"
       COACH_CHATGPT_PLAN: "${COACH_CHATGPT_PLAN:-off}"
+      MCP: "${MCP:-off}"
     volumes:
       - type: bind
         source: "${OPENGYM_DATA_DIR:-./data}"
@@ -27,6 +28,17 @@ services:
         condition: service_healthy
     ports:
       - "127.0.0.1:${OPENGYM_PORT:-8080}:80"
+
+  mcp:
+    profiles: [mcp]
+    image: ghcr.io/duartesantos8/opengym-mcp:${OPENGYM_VERSION:?Set OPENGYM_VERSION in .env}
+    restart: always
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      OPENGYM_API_URL: http://api:3000
+      ORIGIN: "${OPENGYM_ORIGIN:-http://localhost:${OPENGYM_PORT:-8080}}"
 
   cloudflared:
     profiles: [tunnel]
