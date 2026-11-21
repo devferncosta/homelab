@@ -13,6 +13,7 @@ services:
       ALLOW_GUEST: "0"
       INVITE_ONLY: "${OPENGYM_INVITE_ONLY:-0}"
       PASSWORD_LOGIN: "${OPENGYM_PASSWORD_LOGIN:-0}"
+      COACH_CHATGPT_PLAN: "${COACH_CHATGPT_PLAN:-off}"
     volumes:
       - type: bind
         source: "${OPENGYM_DATA_DIR:-./data}"

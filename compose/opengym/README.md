@@ -27,16 +27,16 @@ To run the Cloudflare connector with Compose, set `OPENGYM_TUNNEL_CONFIG` and `O
 2. In the native app, select **Connect to my server** and enter the HTTPS address and the one-time pairing code. With Wi-Fi off and cellular data on, log a sample workout and confirm it appears in the browser. This tests access and sync from outside the home network. [Upstream mobile guide](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/MOBILE.md#connecting-the-app-to-your-own-server)
 3. After a Windows reboot, sign in so Docker Desktop can start. The API, web container, and tunnel connector each have an `always` restart policy. Check them with `docker compose --profile tunnel ps` and confirm the HTTPS site responds again.
 
-## Connect Codex to two profiles
+## Connect the AI Coach to a ChatGPT plan
 
-1. Sign in to each openGym profile and open **Settings → Integrations → API tokens → New token**. Create one token per profile. For routine updates, grant **Plans & routines → Change directly**. Also grant **Workouts → Change directly** if Codex should log workouts. Choose **See** for categories it only needs to read. [openGym token scopes](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/API_TOKENS.md)
-2. Add one entry per profile to the local Codex `config.toml`. Copy the example for the second profile with a distinct server name and its own token. Keep the tokens in the local config.
+Set `COACH_CHATGPT_PLAN=on` in the local `.env` and apply it with `docker compose --profile tunnel up -d --wait` for a tunneled deployment, or `docker compose up -d --wait` locally.
 
-```toml
-[mcp_servers.opengym-first]
-command = "docker"
-args = ["run", "--rm", "--no-healthcheck", "-i", "-e", "OPENGYM_URL", "-e", "OPENGYM_TOKEN", "ghcr.io/duartesantos8/opengym-mcp:1.4.5", "node", "src/index.js"]
-env = { OPENGYM_URL = "https://gym.example.com", OPENGYM_TOKEN = "<profile token>" }
-```
+1. As the openGym admin, open **Settings → Account → Admin dashboard → AI Coach** and choose **ChatGPT plan (preview) → Continue with ChatGPT**.
+2. Approve plan usage in the browser. The browser redirects to a local callback and may show a connection error. Copy the full callback address into the openGym sign-in form and select **Finish sign-in**.
+3. Select **List models**, choose a model, and select **Test the Coach**.
 
-3. Restart Codex and use `/mcp` to check that both servers loaded. Ask each connection to list routines first. Name the target profile explicitly when requesting a change. [Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)
+Eligible usage counts against the connected ChatGPT plan. The authorization binds to the first profile that uses it. Check OpenAI's preview eligibility before offering plan usage to other users. [openGym Coach guide](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/AI_COACH.md#your-chatgpt-plan-preview) · [OpenAI Sign in with ChatGPT](https://developers.openai.com/siwc/token-sharing-open-source)
+
+## Use openGym from ChatGPT
+
+openGym's optional MCP container exposes `/mcp` and supports signing in with openGym through OAuth. Each authorization grants the connected assistant access to one profile. This requires a ChatGPT plan that can add a custom MCP server. Routine changes and workout logging also require MCP write support in ChatGPT. [openGym OAuth connector](https://github.com/DuarteSantos8/openGym/blob/v1.4.5/docs/MCP_REMOTE.md) · [ChatGPT custom MCP availability](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)
