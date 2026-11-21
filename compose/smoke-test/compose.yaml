@@ -1,0 +1,9 @@
+name: homelab-smoke-test
+
+services:
+  probe:
+    image: ${SMOKE_TEST_IMAGE:?Set SMOKE_TEST_IMAGE in your environment file}
+    command: ["sleep", "86400"]
+    init: true
+    network_mode: none
+    restart: always

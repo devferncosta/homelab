@@ -40,7 +40,7 @@ flowchart TD
 
 ## Deployment approach
 
-- Use Docker Desktop with WSL2 as the initial host environment and validate services locally before enabling remote access.
+- Prepare the Windows host with Docker Desktop and WSL2, then validate services locally. See the [host setup and Compose guide](compose/README.md).
 - Use Cloudflare Tunnel for services that need remote HTTPS access without router port forwarding. Verify sign-in and synchronization from supported clients.
 - Track Compose files, environment variable templates, and runbooks in Git. Keep credentials, application data, and backups outside the repository.
 - Document how to verify and roll back updates. Automated off-device backups and a full rebuild test are planned for later.
