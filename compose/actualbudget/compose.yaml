@@ -1,0 +1,22 @@
+name: homelab-actualbudget
+
+services:
+  actualbudget:
+    image: ghcr.io/actualbudget/actual:${ACTUAL_VERSION:?Set ACTUAL_VERSION in .env}
+    restart: always
+    environment:
+      ACTUAL_LOGIN_METHOD: password
+      ACTUAL_ALLOWED_LOGIN_METHODS: password
+    ports:
+      - "127.0.0.1:${ACTUAL_HOST_PORT:-5006}:5006"
+    volumes:
+      - actualbudget-data:/data
+    healthcheck:
+      test: [CMD, node, src/scripts/health-check.js]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  actualbudget-data:

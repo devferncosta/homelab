@@ -1,0 +1,9 @@
+services:
+  actualbudget:
+    networks:
+      - tunnel-origins
+
+networks:
+  tunnel-origins:
+    name: homelab-tunnel-origins
+    external: true

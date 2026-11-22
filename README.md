@@ -2,13 +2,13 @@
 
 A self-hosting infrastructure project built around Docker Compose. The goal is to deploy and maintain a small set of applications from version-controlled configuration and recover them on another host from tested backups.
 
-## Planned services
+## Services
 
 | Service | Purpose |
 | --- | --- |
 | openGym | Workout tracking and training routines |
 | OpenTodo | Shared task management |
-| Actual Budget | Budgeting and financial tracking |
+| [Actual Budget](compose/actualbudget/README.md) | Budgeting and financial tracking |
 
 ## Planned architecture
 
