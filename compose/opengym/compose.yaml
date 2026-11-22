@@ -48,6 +48,9 @@ services:
       web:
         condition: service_healthy
     command: [tunnel, --no-autoupdate, --config, /etc/cloudflared/config.yml, run]
+    networks:
+      - default
+      - tunnel-origins
     volumes:
       - type: bind
         source: "${OPENGYM_TUNNEL_CONFIG:-./secrets/cloudflared.yml}"
@@ -61,3 +64,7 @@ services:
         read_only: true
         bind:
           create_host_path: false
+
+networks:
+  tunnel-origins:
+    name: homelab-tunnel-origins

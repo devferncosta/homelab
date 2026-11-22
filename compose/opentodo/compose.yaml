@@ -1,0 +1,16 @@
+name: homelab-opentodo
+
+services:
+  opentodo:
+    image: ghcr.io/opentodoapp/opentodo:${OPENTODO_VERSION:?Set OPENTODO_VERSION in .env}
+    restart: always
+    environment:
+      OPENTODO_BASE_URL: "${OPENTODO_BASE_URL:-http://localhost:${OPENTODO_PORT:-8081}}"
+      OPENTODO_ALLOW_SIGNUP: "false"
+    ports:
+      - "127.0.0.1:${OPENTODO_PORT:-8081}:8080"
+    volumes:
+      - opentodo-data:/data
+
+volumes:
+  opentodo-data:

@@ -21,6 +21,8 @@ After the admin exists, set `OPENGYM_INVITE_ONLY=1`, `OPENGYM_RP_ID` to the publ
 
 To run the Cloudflare connector with Compose, set `OPENGYM_TUNNEL_CONFIG` and `OPENGYM_TUNNEL_CREDENTIALS` in the local `.env` to the locations of the tunnel YAML and its credentials JSON. Keep both files outside the checkout. In the tunnel YAML, point `credentials-file` at `/etc/cloudflared/credentials.json`. Configure the app hostname to route to `http://web:80` and end the ingress list with `http_status:404`. Run `docker compose --profile tunnel up -d --wait` and verify the tunnel is connected before adding the DNS route. [Cloudflare tunnel guide](https://developers.cloudflare.com/tunnel/features/locally-managed-tunnels/create-local-tunnel/)
 
+The connector also joins `homelab-tunnel-origins` for services in other Compose projects. OpenTodo uses that network when its tunnel configuration is enabled. Start openGym's connector before starting tunneled OpenTodo on a fresh host. [OpenTodo runbook](../opentodo/README.md)
+
 ## Verify phone sync and restart
 
 1. Sign in at the HTTPS address and select **Settings → Account → Pair the mobile app**. Confirm with a passkey or with your password while password sign-in is enabled.

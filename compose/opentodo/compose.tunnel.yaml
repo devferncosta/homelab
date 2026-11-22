@@ -1,0 +1,12 @@
+services:
+  opentodo:
+    environment:
+      OPENTODO_BASE_URL: "${OPENTODO_BASE_URL:?Set OPENTODO_BASE_URL to the HTTPS address in .env}"
+      OPENTODO_SETUP_CODE: required
+    networks:
+      - tunnel-origins
+
+networks:
+  tunnel-origins:
+    name: homelab-tunnel-origins
+    external: true
